@@ -13,19 +13,19 @@ import Network
 import os.log
 import Combine
 
- class PeerConnection {
+class PeerConnection {
   
   var connection: NWConnection?
   let initiatedConnection: Bool
   
-   enum ConnectionState {
+  enum ConnectionState {
     case ready
     case failed
   }
-    
-   var connectionStatePublisher = PassthroughSubject<ConnectionState, Never>()
   
-   var receiveMessagePublisher = PassthroughSubject<(content: Data?, message: NWProtocolFramer.Message), Never>()
+  var connectionStatePublisher = PassthroughSubject<ConnectionState, Never>()
+  
+  var receiveMessagePublisher = PassthroughSubject<(content: Data?, message: NWProtocolFramer.Message), Never>()
   
   deinit {
     os_log("deinit PeerConnection", log: .network, type: .debug)
@@ -37,7 +37,7 @@ import Combine
    - endpoint: endpoint description
    - interface: interface description
    */
-   init(endpoint: NWEndpoint, interface: NWInterface?) {
+  init(endpoint: NWEndpoint, interface: NWInterface?) {
     self.initiatedConnection = true
     
     let connection = NWConnection(to: endpoint, using: NWParameters.haptrixParameters())
@@ -60,7 +60,7 @@ import Combine
   /**
    Handle the user exiting the game.
    */
-   func cancel() {
+  func cancel() {
     if let connection = self.connection {
       connection.cancel()
       self.connection = nil
@@ -86,9 +86,9 @@ import Combine
         
         // Notify your delegate that the connection is ready.
         self?.connectionStatePublisher.send(.ready)
-//        if let delegate = self.delegate {
-//          delegate.connectionReady()
-//        }
+        //        if let delegate = self.delegate {
+        //          delegate.connectionReady()
+        //        }
       case .failed(let error):
         os_log("Connection: failed", log: .network, type: .error, "\(error)")
         
@@ -96,9 +96,9 @@ import Combine
         connection.cancel()
         
         // Notify your delegate that the connection failed.
-//        if let delegate = self.delegate {
-//          delegate.connectionFailed()
-//        }
+        //        if let delegate = self.delegate {
+        //          delegate.connectionFailed()
+        //        }
         self?.connectionStatePublisher.send(.failed)
       case .cancelled:
         os_log("Connection: Cancelled", log: .network, type: .debug)
@@ -114,14 +114,14 @@ import Combine
     // Start the connection establishment.
     connection.start(queue: .main)
   }
-      
+  
   /**
    Send a ZIP file as data
    
    - Parameter data: ZIP file data
    */
-   func send(zip data: Data) {
-
+  func send(zip data: Data) {
+    
     let message = NWProtocolFramer.Message(messageType: .sendZIP)
     
     let context = NWConnection.ContentContext(identifier: "SNDZ",
@@ -134,14 +134,14 @@ import Combine
   /**
    
    */
-   func kill() {
+  func kill() {
     let message = NWProtocolFramer.Message(messageType: .kill)
     let context = NWConnection.ContentContext(identifier: "KILL",
-                                                 metadata: [message])
+                                              metadata: [message])
     connection?.send(content: Data(), contentContext: context, isComplete: true, completion: .idempotent)
   }
-
- /**
+  
+  /**
    Receive a message, deliver it to your delegate, and continue receiving more messages.
    */
   func receiveNextMessage() {
@@ -160,7 +160,7 @@ import Combine
       }
     }
   }
-
+  
 }
 
 

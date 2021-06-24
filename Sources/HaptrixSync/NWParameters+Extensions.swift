@@ -11,7 +11,7 @@
 import Network
 
 extension NWParameters {
-
+  
   /**
    Create parameters for use in PeerConnection.
    - Returns: NWParameters
@@ -21,13 +21,13 @@ extension NWParameters {
     let tcpOptions = NWProtocolTCP.Options()
     tcpOptions.enableKeepalive = true
     tcpOptions.keepaliveIdle = 2
-
+    
     // Create parameters with custom TLS and TCP options.
     let parameters = NWParameters(tls: nil, tcp: tcpOptions)
-
+    
     // Enable using a peer-to-peer link.
     parameters.includePeerToPeer = true
-
+    
     // Add your custom message protocol to support our messages.
     let messageOptions = NWProtocolFramer.Options(definition: MessageProtocol.definition)
     parameters.defaultProtocolStack.applicationProtocols.insert(messageOptions, at: 0)

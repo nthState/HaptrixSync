@@ -13,7 +13,7 @@ import Network
 import os.log
 
 // Define the types of commands your game will use.
- enum MessageType: UInt32 {
+enum MessageType: UInt32 {
   case invalid = 0
   @available(*, deprecated, message: "Send data via sendZIP instead")
   case sendAHAP = 1
@@ -116,7 +116,7 @@ extension NWProtocolFramer.Message {
     self.messageType = messageType
   }
   
-   var messageType: MessageType {
+  var messageType: MessageType {
     get {
       if let type = self["AHAPMessageType"] as? MessageType {
         return type
