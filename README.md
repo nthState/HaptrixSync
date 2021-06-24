@@ -55,7 +55,7 @@ let package = Package(
 You will need to add the following lines to your `Info.plist`, this tells your app that it can connect to the Haptrix macOS App.
 The `NSLocalNetworkUsageDescription` is required key to ask the user for permission to connec to the Haptrix App.
 
-```plist
+```xml
 <key>NSBonjourServices</key>
 <array>
   <string>_haptrix._tcp</string>
