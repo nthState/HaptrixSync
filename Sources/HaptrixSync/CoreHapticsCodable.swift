@@ -8,6 +8,8 @@
 //  See https://github.com/nthState/HaptrixSync/blob/master/LICENSE for license information.
 //
 
+import Foundation
+
 /**
  This file represents a minimal codable conformance to an AHAP file
  */

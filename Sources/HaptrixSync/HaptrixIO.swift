@@ -8,6 +8,7 @@
 //  See https://github.com/nthState/HaptrixSync/blob/master/LICENSE for license information.
 //
 
+import Foundation
 import Combine
 import CryptoKit
 import os.log

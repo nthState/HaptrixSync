@@ -8,6 +8,8 @@
 //  See https://github.com/nthState/HaptrixSync/blob/master/LICENSE for license information.
 //
 
+import Foundation
+
 extension FileManager {
   
   /**
