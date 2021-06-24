@@ -2,7 +2,7 @@
 //  Networking.swift
 //  HaptrixSync
 //
-//  Copyright © 2021 nthState, http://www.nthstate.com.
+//  Copyright © 2021 nthState, http://www.nthstate.com
 //  Released under the MIT License.
 //
 //  See https://github.com/nthState/HaptrixSync/blob/master/LICENSE for license information.
