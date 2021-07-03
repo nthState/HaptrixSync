@@ -136,7 +136,7 @@ let engine = CHHapticEngine()
 var cancellables = Set<AnyCancellable>()
 
 engine
-  .playPattern(from: url, syncUpdates: true)
+  .playPatternPublisher(from: url, syncUpdates: true)
   .sink { result in
     switch result {
     case .failure(let error):

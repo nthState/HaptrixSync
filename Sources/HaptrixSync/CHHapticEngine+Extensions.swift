@@ -49,7 +49,7 @@ extension CHHapticEngine {
    - syncUpdates: Should we check for synced updates?
    - Returns: Boolean if the AHAP was played successfully
    */
-  public func playPattern(from url: URL, syncUpdates: Bool) -> AnyPublisher<Bool, Error> {
+  public func playPatternPublisher(from url: URL, syncUpdates: Bool) -> AnyPublisher<Bool, Error> {
     
     let newURL = updatedURL(from: url, syncUpdates: syncUpdates)
     
