@@ -81,8 +81,8 @@ extension CHHapticEngine {
    Failing to find an updated file, we fall back to the passed in url
    
    - Parameters:
-   - url: URL to the AHAP file
-   - syncUpdates: Should we check for synced updates?
+     - url: URL to the AHAP file
+     - syncUpdates: Should we check for synced updates?
    - Returns: URL to either the latest AHAP or the passed in AHAP
    */
   fileprivate func updatedURL(from url: URL, syncUpdates: Bool) -> URL {
