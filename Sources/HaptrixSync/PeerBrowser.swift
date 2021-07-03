@@ -29,6 +29,7 @@ class PeerBrowser {
     // Create parameters, and allow browsing over peer-to-peer link.
     let parameters = NWParameters()
     parameters.includePeerToPeer = true
+    parameters.allowLocalEndpointReuse = true
     
     // Browse for a custom "_haptrix._tcp" service type.
     let browser = NWBrowser(for: .bonjour(type: bonjourType, domain: nil), using: parameters)
