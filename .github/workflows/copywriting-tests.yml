@@ -6,7 +6,7 @@ on:
       - '**'
   
 concurrency:
-  group: "${{ github.ref }}_writing"
+  group: "${{ github.ref }}_copywriting"
   cancel-in-progress: true
     
 jobs:

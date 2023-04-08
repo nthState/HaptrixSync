@@ -1,7 +1,9 @@
 name: Build - Bump Version Number
 
 on:
-  workflow_dispatch:
+  #workflow_dispatch:
+  push:
+    branches: [task/add-better-development-practices]
       
 env:
   version_file: "Version.xcconfig"
