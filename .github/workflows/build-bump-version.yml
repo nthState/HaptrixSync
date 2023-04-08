@@ -43,9 +43,9 @@ jobs:
           git tag ${{ env.NEW_TAG }}
           git push origin ${{ env.NEW_TAG }}
           
-      outputs:
-        NEW_TAG: ${{ env.NEW_TAG }}
-        BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
+    outputs:
+      NEW_TAG: ${{ env.NEW_TAG }}
+      BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
           
   CreateChangelogAndRelease:
     needs: BumpAndTag
