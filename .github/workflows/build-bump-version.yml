@@ -1,9 +1,7 @@
 name: Build - Bump Version Number
 
 on:
-  push:
-    tags:
-      - v[0-9]+.[0-9]+.[0-9]+
+  workflow_dispatch:
       
 env:
   version_file: "Version.xcconfig"
