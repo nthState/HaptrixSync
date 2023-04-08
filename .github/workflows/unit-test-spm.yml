@@ -1,0 +1,36 @@
+name: Unit Test SPM
+
+on:
+  push:
+    branches:
+      - '**'
+  
+concurrency:
+  group: "${{ github.ref }}_test_spm"
+  cancel-in-progress: true
+    
+jobs:
+  test:
+    name: Unit Test SPM
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+    
+      - name: OS Version
+        run: |
+            sw_vers
+   
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run SPM Tests
+        run:  |
+            swift test
+        
+      - name: Upload Test Results
+        if:   failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: ~/Library/Developer/Xcode/DerivedData/Haptrix*/Logs/Test/*.xcresult
+          retention-days: 3

@@ -1,0 +1,53 @@
+name: Update Changelog, Create Release
+
+on:
+  workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
+      build_number:
+        required: true
+        type: string
+
+jobs:
+  changelog:
+    name: Update Changelog, Create Release
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+    
+      - name: Checkout Code
+        uses: actions/checkout@v3
+          
+      - name: Pull again (workflow uses triggered commit as base)
+        run: |
+          git pull
+ 
+      - name: Update CHANGELOG
+        id: changelog
+        uses: Requarks/changelog-action@v1.5.0
+        with:
+          tag: ${{ inputs.tag_name }}
+          excludeTypes: ""
+          includeInvalidCommits: true
+ 
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          draft: false
+          name: ${{ inputs.tag_name }}
+          body: ${{ steps.changelog.outputs.changes }}
+          
+      - name: Whats new
+        run: |
+          echo "${{ steps.changelog.outputs.changes }}"
+ 
+      - name: Commit CHANGELOG.md
+        run: |
+          git pull
+          git add "CHANGELOG.md"
+          git commit -m "docs: update CHANGELOG.md for ${{ inputs.tag_name }} [skip ci]" || echo "No changes to commit"
+          git push
+  
