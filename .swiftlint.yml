@@ -1,0 +1,10 @@
+disabled_rules: 
+  - function_parameter_count
+  - line_length
+  - nesting
+  - todo
+  - identifier_name
+opt_in_rules:
+  - sorted_imports
+excluded:
+  - ".build"
