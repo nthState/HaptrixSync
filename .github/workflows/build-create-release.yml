@@ -31,6 +31,7 @@ jobs:
           tag: ${{ inputs.tag_name }}
           excludeTypes: ""
           includeInvalidCommits: true
+          token: ${{ github.token }}
  
       - name: Create Release
         uses: softprops/action-gh-release@v1
