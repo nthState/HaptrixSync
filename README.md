@@ -6,18 +6,20 @@ Update your App's Haptics without re-compiling your App.
 
 This package allows you to change your Haptic file and send it to your App directly from the Haptrix App
 
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-    - [Syncing from Haptrix to your App](#syncing-from-haptrix-to-your-app)
-    - [Playing a pattern](#playing-a-pattern)
-    - [Debug Release Builds](#debug-release-builds)
-- [Advanced Usage](#advanced-usage)
-    - [Using a publisher](#Using-a-publisher)
-- [New Developers?](#newdev)
-- [Credits](#credits)
-- [License](#license)
+## Table of Contents
+
+1. [Features](#features)
+2. [Requirements](#requirements)
+3. [Installation](#installation)
+4. [Usage](#usage)
+    1. [Syncing from Haptrix to your App](#syncing-from-haptrix-to-your-app)
+    2. [Playing a pattern](#playing-a-pattern)
+    3. [Debug Release Builds](#debug-release-builds)
+5. [Advanced Usage](#advanced-usage)
+    1. [Using a publisher](#Using-a-publisher)
+6. [New Developer?](#newdev)
+7. [Credits](#credits)
+8. [License](#license)
 
 
 ## Features

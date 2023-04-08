@@ -11,9 +11,9 @@
 import os.log
 
 extension OSLog {
-  
+
   static var frameworkSystem = "com.haptrixSync.package"
-  
+
   static let player = OSLog(subsystem: frameworkSystem, category: "Player")
   static let io = OSLog(subsystem: frameworkSystem, category: "IO")
   static let network = OSLog(subsystem: frameworkSystem, category: "Network")

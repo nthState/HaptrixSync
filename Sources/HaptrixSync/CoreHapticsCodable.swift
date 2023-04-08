@@ -15,62 +15,62 @@ import Foundation
  */
 
 class HapticBase: Codable {
-  
+
 }
 
 // MARK: - Generic Parameter
 
-class HapticEventParameter : NSObject, Codable {
-  
+class HapticEventParameter: NSObject, Codable {
+
   var value: NSNumber! = 0
   var parameterID: String? = ""
-  
-  // MARK:- Codable
-  
+
+  // MARK: - Codable
+
   enum CodingKeys: String, CodingKey {
     case parameterID = "ParameterID"
     case value = "ParameterValue"
   }
-  
+
   required init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    
+
     parameterID = try values.decodeIfPresent(String.self, forKey: .parameterID)
     value = try values.decode(Float.self, forKey: .value) as NSNumber
   }
-  
+
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    
+
     try container.encode(parameterID, forKey: .parameterID)
     try container.encode(value.floatValue, forKey: .value)
   }
-  
+
 }
 
 // MARK: - Parameter Curve Control
 
-class ParameterCurveControlPoint : NSObject, Codable {
+class ParameterCurveControlPoint: NSObject, Codable {
   var time: NSNumber! = 0
   var value: NSNumber! = 0
-  
-  // MARK:- Codable
-  
+
+  // MARK: - Codable
+
   enum CodingKeys: String, CodingKey {
     case time = "Time"
     case value = "ParameterValue"
   }
-  
+
   required init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    
+
     time = try values.decode(TimeInterval.self, forKey: .time) as NSNumber
     value = try values.decode(Float.self, forKey: .value) as NSNumber
   }
-  
+
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    
+
     try container.encode(time.floatValue, forKey: .time)
     try container.encode(value.floatValue, forKey: .value)
   }
@@ -78,35 +78,35 @@ class ParameterCurveControlPoint : NSObject, Codable {
 
 // MARK: - Parameter Curve
 
-class HapticParameterCurve : HapticBase {
+class HapticParameterCurve: HapticBase {
   var time: NSNumber! = 0
   var parameterID: String?
   var controlPoints: [ParameterCurveControlPoint] = []
-  
-  // MARK:- Codable
-  
+
+  // MARK: - Codable
+
   enum CodingKeys: String, CodingKey {
     case parameterID = "ParameterID"
     case time = "Time"
     case controlPoints = "ParameterCurveControlPoints"
   }
-  
+
   required init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    
+
     parameterID = try values.decodeIfPresent(String.self, forKey: .parameterID)
     time = try values.decodeIfPresent(TimeInterval.self, forKey: .time) as NSNumber?
     self.controlPoints = try values.decodeIfPresent([ParameterCurveControlPoint].self, forKey: .controlPoints) ?? []
     self.controlPoints.sort { (lhs, rhs) -> Bool in
       lhs.time.floatValue < rhs.time.floatValue
     }
-    
+
     super.init()
   }
-  
+
   override func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    
+
     try container.encode(parameterID, forKey: .parameterID)
     try container.encode(time?.doubleValue, forKey: .time)
     try container.encode(controlPoints, forKey: .controlPoints)
@@ -116,16 +116,16 @@ class HapticParameterCurve : HapticBase {
 // MARK: - Event
 
 class HapticEvent: HapticBase {
-  
+
   var eventParameters: [HapticEventParameter]?
-  
+
   var time: NSNumber! = 0
   var duration: NSNumber! = 0
   var waveForm: URL?
   var eventType: String?
-  
-  // MARK:- Codable
-  
+
+  // MARK: - Codable
+
   enum CodingKeys: String, CodingKey {
     case time = "Time"
     case duration = "EventDuration"
@@ -134,22 +134,22 @@ class HapticEvent: HapticBase {
     case waveformPath = "EventWaveformPath"
     case waveformData = "EventWaveformData"
   }
-  
+
   required init(from decoder: Decoder) throws {
     super.init()
-    
+
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    
+
     time = try values.decodeIfPresent(TimeInterval.self, forKey: .time) as NSNumber?
     duration = try values.decodeIfPresent(TimeInterval.self, forKey: .duration) as NSNumber?
     eventType = try values.decodeIfPresent(String.self, forKey: .eventType)
     eventParameters = try values.decodeIfPresent([HapticEventParameter].self, forKey: .eventParameters)
     waveForm = try values.decodeIfPresent(URL.self, forKey: .waveformPath)
   }
-  
+
   override func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    
+
     try container.encode(time?.doubleValue, forKey: .time)
     try container.encodeIfPresent(duration?.doubleValue, forKey: .duration)
     try container.encode(eventType, forKey: .eventType)
@@ -161,50 +161,50 @@ class HapticEvent: HapticBase {
 // MARK: - Pattern
 
 class CoreHapticsCodable: NSObject, Codable {
-  
+
   var pattern: [HapticBase] = []
-  
-  // MARK:- Codable
-  
+
+  // MARK: - Codable
+
   enum CodingKeys: String, CodingKey {
     case pattern = "Pattern"
   }
-  
+
   enum NestedCodingKeys: String, CodingKey {
     case event = "Event"
     case parameterCurve = "ParameterCurve"
     case parameter = "Parameter"
   }
-  
+
   enum OperationTypes: String, Decodable {
     case event = "Event"
     case parameterCurve = "ParameterCurve"
   }
-  
+
   required init(from decoder: Decoder) throws {
     super.init()
-    
+
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    
+
     pattern = []
-    
+
     var patternArray = try values.nestedUnkeyedContainer(forKey: .pattern)
-    
-    while (!patternArray.isAtEnd) {
+
+    while !patternArray.isAtEnd {
       let operation = try patternArray.nestedContainer(keyedBy: NestedCodingKeys.self)
-      
+
       if let event = try operation.decodeIfPresent(HapticEvent.self, forKey: NestedCodingKeys.event) {
         pattern.append(event)
       } else if let curve = try operation.decodeIfPresent(HapticParameterCurve.self, forKey: NestedCodingKeys.parameterCurve) {
         pattern.append(curve)
       }
     }
-    
+
   }
-  
+
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    
+
     var patternArray = container.nestedUnkeyedContainer(forKey: .pattern)
     for item in pattern {
       var operation = patternArray.nestedContainer(keyedBy: NestedCodingKeys.self)
@@ -215,7 +215,7 @@ class CoreHapticsCodable: NSObject, Codable {
         try operation.encode(curve, forKey: NestedCodingKeys.parameterCurve)
       }
     }
-    
+
   }
-  
+
 }
