@@ -1,3 +1,5 @@
+[![Unit Test SPM](https://github.com/nthState/HaptrixSync/actions/workflows/unit-test-spm.yml/badge.svg)](https://github.com/nthState/HaptrixSync/actions/workflows/unit-test-spm.yml)
+
 # Haptrix Sync
 
 Update your App's Haptics without re-compiling your App.
@@ -13,6 +15,7 @@ This package allows you to change your Haptic file and send it to your App direc
     - [Debug Release Builds](#debug-release-builds)
 - [Advanced Usage](#advanced-usage)
     - [Using a publisher](#Using-a-publisher)
+- [New Developers?](#newdev)
 - [Credits](#credits)
 - [License](#license)
 
@@ -149,6 +152,15 @@ engine
   }
   .store(in: &cancellables)
 
+```
+
+## New Developer? <a name="newdev"></a>
+
+If you are a new developer, we have a script you can run to install all dependencies, there
+may be parts that you do-not wish to install, so pick and choose what you need from the script
+
+```
+./Scripts/new-developer.sh
 ```
 
 ## Credits
