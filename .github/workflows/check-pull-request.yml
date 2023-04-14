@@ -17,6 +17,6 @@ jobs:
         uses: naveenk1223/action-pr-title@master
         with:
           regex: '.+'
-          allowed_prefixes: 'feature,fix,ci,build,chore,style,docs,refactor,perf,test'
+          allowed_prefixes: 'feat,fix,ci,build,chore,style,docs,refactor,perf,test'
           prefix_case_sensitive: false
           
