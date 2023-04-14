@@ -6,12 +6,10 @@ on:
       - '.github/workflows/lint.yml'
       - '.lint.yml'
       - '**/*.swift'
-    branches:
-      - '**'
 
 jobs:
   changedfiles:
-    runs-on: macos-latest
+    runs-on: self-hosted
     # Map a step output to a job output
     outputs:
       all: ${{ steps.changes.outputs.all}}
@@ -28,7 +26,7 @@ jobs:
           echo "::set-output name=ts::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .swift$ | xargs)"
   
   SwiftLint:
-    runs-on: macos-latest
+    runs-on: self-hosted
     needs: changedfiles
     timeout-minutes: 1
     if: ${{needs.changedfiles.outputs.swift}}

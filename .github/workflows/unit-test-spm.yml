@@ -2,8 +2,6 @@ name: Unit Test SPM
 
 on:
   push:
-    branches:
-      - '**'
   
 concurrency:
   group: "${{ github.ref }}_test_spm"
@@ -12,7 +10,7 @@ concurrency:
 jobs:
   test:
     name: Unit Test SPM
-    runs-on: macos-latest
+    runs-on: self-hosted
     timeout-minutes: 10
     steps:
     
