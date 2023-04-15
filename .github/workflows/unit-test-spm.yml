@@ -17,6 +17,10 @@ jobs:
       - name: OS Version
         run: |
             sw_vers
+            
+      - name: Clear derived data
+        run: |
+            rm -rf ~/Library/Developer/Xcode/DerivedData
    
       - name: Checkout
         uses: actions/checkout@v3
