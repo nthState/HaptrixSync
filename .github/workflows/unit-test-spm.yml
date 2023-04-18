@@ -10,7 +10,7 @@ concurrency:
 jobs:
   test:
     name: Unit Test SPM
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 10
     steps:
     
