@@ -8,8 +8,9 @@ env:
 
 jobs:
   BumpAndTag:
-    runs-on: self-hosted
-    timeout-minutes: 30
+    name: Bump Build, Create Tag
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 1
     steps:
     
       - name: Checkout Code
@@ -23,6 +24,7 @@ jobs:
           passphrase: ${{ secrets.ORG_BOT_GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
+          git_tag_gpgsign: true
         
       - name: Find version, build number and update
         run: |
@@ -43,7 +45,7 @@ jobs:
       - name: Commit build number
         run: |
           git add "${{ env.version_file }}"
-          git commit -s -m "bump: Build Number to: ${{ env.NEW_TAG }} [skip ci]" || echo "No changes to commit"
+          git commit -S -m "bump: Build Number to: ${{ env.NEW_TAG }} [skip ci]" || echo "No changes to commit"
           git push
         env:
           GIT_AUTHOR_NAME: ${{ steps.import-gpg.outputs.name }}
@@ -53,7 +55,7 @@ jobs:
           
       - name: Create tag
         run: |
-          git tag -s ${{ env.NEW_TAG }}
+          git tag -s ${{ env.NEW_TAG }} -m "${{ env.NEW_TAG }}"
           git push origin ${{ env.NEW_TAG }}
         env:
           GIT_AUTHOR_NAME: ${{ steps.import-gpg.outputs.name }}

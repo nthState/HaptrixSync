@@ -13,7 +13,7 @@ on:
 jobs:
   changelog:
     name: Update Changelog, Create Release
-    runs-on: self-hosted
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 30
     steps:
     
@@ -62,7 +62,7 @@ jobs:
         run: |
           git pull
           git add "CHANGELOG.md"
-          git commit -s -m "docs: update CHANGELOG.md for ${{ inputs.tag_name }} [skip ci]" || echo "No changes to commit"
+          git commit -S -m "docs: update CHANGELOG.md for ${{ inputs.tag_name }} [skip ci]" || echo "No changes to commit"
           git push
         env:
           GIT_AUTHOR_NAME: ${{ steps.import-gpg.outputs.name }}
