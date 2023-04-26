@@ -9,7 +9,7 @@ env:
 jobs:
   BumpAndTag:
     name: Bump Build, Create Tag
-    runs-on: [self-hosted, macOS]
+    runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
     
@@ -23,8 +23,6 @@ jobs:
           gpg_private_key: ${{ secrets.ORG_BOT_GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.ORG_BOT_GPG_PASSPHRASE }}
           git_user_signingkey: true
-          git_commit_gpgsign: true
-          git_tag_gpgsign: true
         
       - name: Find version, build number and update
         run: |

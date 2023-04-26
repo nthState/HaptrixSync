@@ -14,7 +14,7 @@ concurrency:
 jobs:
   lint:
     name: Lint
-    runs-on: [self-hosted, macOS]
+    runs-on: macos-latest
     timeout-minutes: 3
     steps:
 
