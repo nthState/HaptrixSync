@@ -1,0 +1,26 @@
+name: Swift Lint
+
+on:
+  push:
+    paths:
+      - '.github/workflows/lint.yml'
+      - '.lint.yml'
+      - '**/*.swift'
+
+concurrency:
+  group: "${{ github.ref }}_lint"
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: macos-latest
+    timeout-minutes: 3
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Run linter
+        run: swiftlint --strict
+ 

@@ -7,13 +7,13 @@ let package = Package(
     name: "HaptrixSync",
     platforms: [
         .iOS(.v13),
-        .macOS(.v10_15),
+        .macOS(.v10_15)
       ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "HaptrixSync",
-            targets: ["HaptrixSync"]),
+            targets: ["HaptrixSync"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -27,6 +27,6 @@ let package = Package(
             dependencies: ["ZIPFoundation"]),
         .testTarget(
             name: "HaptrixSyncTests",
-            dependencies: ["HaptrixSync"]),
+            dependencies: ["HaptrixSync"])
     ]
 )

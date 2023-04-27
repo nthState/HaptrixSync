@@ -11,7 +11,7 @@
 import Foundation
 
 extension FileManager {
-  
+
   /**
    Delete the contents of a folder
    - Parameter url: The content inside this URL will be deleted
@@ -19,10 +19,10 @@ extension FileManager {
   func deleteContentsOfFolder(at url: URL) {
     let fileManager = FileManager.default
     let urls = try? fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .includesDirectoriesPostOrder)
-    
+
     for url in urls ?? [] {
       try? fileManager.removeItem(at: url)
     }
   }
-  
+
 }

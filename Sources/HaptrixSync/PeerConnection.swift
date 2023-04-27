@@ -8,29 +8,29 @@
 //  See https://github.com/nthState/HaptrixSync/blob/master/LICENSE for license information.
 //
 
+import Combine
 import Foundation
 import Network
 import os.log
-import Combine
 
 class PeerConnection {
-  
+
   var connection: NWConnection?
   let initiatedConnection: Bool
-  
+
   enum ConnectionState {
     case ready
     case failed
   }
-  
+
   var connectionStatePublisher = PassthroughSubject<ConnectionState, Never>()
-  
+
   var receiveMessagePublisher = PassthroughSubject<(content: Data?, message: NWProtocolFramer.Message), Never>()
-  
+
   deinit {
     os_log("deinit PeerConnection", log: .network, type: .debug)
   }
-  
+
   /**
    Create an outbound connection when the user initiates a game.
    - Parameters:
@@ -39,13 +39,13 @@ class PeerConnection {
    */
   init(endpoint: NWEndpoint, interface: NWInterface?) {
     self.initiatedConnection = true
-    
+
     let connection = NWConnection(to: endpoint, using: NWParameters.haptrixParameters())
     self.connection = connection
-    
+
     startConnection()
   }
-  
+
   /**
    Handle an inbound connection when the user receives a game request.
    - Parameter connection: connection description
@@ -53,10 +53,10 @@ class PeerConnection {
   init(connection: NWConnection) {
     self.connection = connection
     self.initiatedConnection = false
-    
+
     startConnection()
   }
-  
+
   /**
    Handle the user exiting the game.
    */
@@ -66,7 +66,7 @@ class PeerConnection {
       self.connection = nil
     }
   }
-  
+
   /**
    Handle starting the peer-to-peer connection for both inbound and outbound connections.
    */
@@ -74,16 +74,16 @@ class PeerConnection {
     guard let connection = connection else {
       return
     }
-    
+
     connection.stateUpdateHandler = { [weak self] newState in
-      
+
       switch newState {
       case .ready:
         os_log("Connection: established", log: .network, type: .debug)
-        
+
         // When the connection is ready, start receiving messages.
         self?.receiveNextMessage()
-        
+
         // Notify your delegate that the connection is ready.
         self?.connectionStatePublisher.send(.ready)
         //        if let delegate = self.delegate {
@@ -91,10 +91,10 @@ class PeerConnection {
         //        }
       case .failed(let error):
         os_log("Connection: failed", log: .network, type: .error, "\(error)")
-        
+
         // Cancel the connection upon a failure.
         connection.cancel()
-        
+
         // Notify your delegate that the connection failed.
         //        if let delegate = self.delegate {
         //          delegate.connectionFailed()
@@ -110,27 +110,27 @@ class PeerConnection {
         os_log("Connection: Unknown", log: .network, type: .debug)
       }
     }
-    
+
     // Start the connection establishment.
     connection.start(queue: .main)
   }
-  
+
   /**
    Send a ZIP file as data
    
    - Parameter data: ZIP file data
    */
   func send(zip data: Data) {
-    
+
     let message = NWProtocolFramer.Message(messageType: .sendZIP)
-    
+
     let context = NWConnection.ContentContext(identifier: "SNDZ",
                                               metadata: [message])
-    
+
     // Send the application content along with the message.
     connection?.send(content: data, contentContext: context, isComplete: true, completion: .idempotent)
   }
-  
+
   /**
    
    */
@@ -140,7 +140,7 @@ class PeerConnection {
                                               metadata: [message])
     connection?.send(content: Data(), contentContext: context, isComplete: true, completion: .idempotent)
   }
-  
+
   /**
    Receive a message, deliver it to your delegate, and continue receiving more messages.
    */
@@ -148,8 +148,8 @@ class PeerConnection {
     guard let connection = connection else {
       return
     }
-    
-    connection.receiveMessage { (content, context, isComplete, error) in
+
+    connection.receiveMessage { (content, context, _, error) in
       // Extract your message type from the received context.
       if let message = context?.protocolMetadata(definition: MessageProtocol.definition) as? NWProtocolFramer.Message {
         self.receiveMessagePublisher.send((content: content, message: message))
@@ -160,7 +160,5 @@ class PeerConnection {
       }
     }
   }
-  
+
 }
-
-
