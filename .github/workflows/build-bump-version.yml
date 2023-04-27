@@ -1,7 +1,7 @@
 name: Build - Bump Version Number
 
 on:
-  push:
+  workflow_dispatch:
       
 env:
   version_file: "Version.xcconfig"
